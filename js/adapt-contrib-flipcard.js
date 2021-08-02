@@ -86,12 +86,15 @@ class Flipcard extends ComponentView {
     }
     
     this.setVisited();
-    this.focusOnFlipcard($selectedElement);
+    $flipcardItem = $selectedElement.parents('.flipcard__item');
+    const $frontflipcard = $flipcardItem.find('.flipcard__item-front');
+    this.focusOnFlipcard($flipcardItem, $frontflipcard.is(':visible'));
   }
 
   // This function will be responsible to perform All flip on flipcard
   // where all cards can flip and stay in the flipped state.
   performAllFlip($selectedElement) {
+    //const $flipcardItem = $selectedElement.parents('.flipcard__item');
     const $flipcardItem = $selectedElement.parents('.flipcard__item');
     if (Modernizr.testProp('transformStyle', 'preserve-3d')) {
       $flipcardItem.toggleClass('flipcard__flip');
@@ -104,12 +107,16 @@ class Flipcard extends ComponentView {
     if ($frontflipcard.is(':visible')) {
       $frontflipcard.fadeOut(flipTime, () => {
         $backflipcard.fadeIn(flipTime);
+        //$backflipcard.promise().done(() => {
+          //this.focusOnFlipcard($flipcardItem, false);
+        //});
       });
-    }
-    
-    if ($backflipcard.is(':visible')) {
+    } else if ($backflipcard.is(':visible')) {
       $backflipcard.fadeOut(flipTime, () => {
         $frontflipcard.fadeIn(flipTime);
+        //$frontflipcard.promise().done(() => {
+          //this.focusOnFlipcard($flipcardItem, true);
+        //});
       });
     }
   }
@@ -121,13 +128,16 @@ class Flipcard extends ComponentView {
     const flipcardFlip = 'flipcard__flip';
     const flipcardContainer = $flipcardItem.closest('.flipcard__widget');
     if (!Modernizr.testProp('transformStyle', 'preserve-3d')) {
-      const frontflipcard = $flipcardItem.find('.flipcard__item-front');
-      const backflipcard = $flipcardItem.find('.flipcard__item-back');
+      const $frontflipcard = $flipcardItem.find('.flipcard__item-front');
+      const $backflipcard = $flipcardItem.find('.flipcard__item-back');
       const flipTime = this.model.get('_flipTime') || 'fast';
 
-      if (backflipcard.is(':visible')) {
-        backflipcard.fadeOut(flipTime, () => {
-          frontflipcard.fadeIn(flipTime);
+      if ($backflipcard.is(':visible')) {
+        $backflipcard.fadeOut(flipTime, () => {
+          $frontflipcard.fadeIn(flipTime);
+          $frontflipcard.promise().done(() => {
+            //this.focusOnFlipcard($flipcardItem, true);
+          });
         });
       } else {
         const visibleflipcardBack = flipcardContainer.find('.flipcard__item-back:visible');
@@ -136,8 +146,11 @@ class Flipcard extends ComponentView {
             flipcardContainer.find('.flipcard__item-front:hidden').fadeIn(flipTime);
           });
         }
-        frontflipcard.fadeOut(flipTime, () => {
-          backflipcard.fadeIn(flipTime);
+        $frontflipcard.fadeOut(flipTime, () => {
+          $backflipcard.fadeIn(flipTime);
+          $backflipcard.promise().done(() => {
+            //this.focusOnFlipcard($flipcardItem, false);
+          });
         });
       }
     } else {
@@ -150,12 +163,17 @@ class Flipcard extends ComponentView {
     }
   }
   
-  focusOnFlipcard($selectedElement) {
-    const $flipcardItem = $selectedElement.parents('.flipcard__item');
+  focusOnFlipcard($flipcardItem, isFront) {
     const classFlipcardFront = '.flipcard__item-front';
     const classFlipcardBack = '.flipcard__item-back';
     const $flipcardFront = $flipcardItem.find(classFlipcardFront);
     const $flipcardBack = $flipcardItem.find(classFlipcardBack);
+    
+    // Adapt.a11y.toggleAccessibleEnabled($flipcardFront, isFront);
+    // Adapt.a11y.toggleAccessibleEnabled($flipcardBack, !isFront);
+    
+    // $flipcardFront.blur();
+    // $flipcardBack.blur();
     
     _.defer(() => {
       Adapt.a11y.toggleAccessibleEnabled($flipcardFront, !$flipcardItem.hasClass('flipcard__flip'));
@@ -192,3 +210,4 @@ class Flipcard extends ComponentView {
 Adapt.register('flipcard', Flipcard);
 
 export default Flipcard;
+
