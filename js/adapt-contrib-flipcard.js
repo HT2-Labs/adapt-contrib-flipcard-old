@@ -166,8 +166,6 @@ define([
       _.defer(() => {
         Adapt.a11y.toggleAccessibleEnabled($flipcardFront, !$selectedElement.hasClass('flipcard__flip'));
         Adapt.a11y.toggleAccessibleEnabled($flipcardBack, $selectedElement.hasClass('flipcard__flip'));
-        // $flipcardFront.blur();
-        // $flipcardBack.blur();
       });
 
       const delayTime = (this.model.get('_flipTime') + 100) || 300;
