@@ -70,11 +70,8 @@ class Flipcard extends ComponentView {
 
   // Click or Touch event handler for flip card.
   onClickFlipItem(event) {
-    if (event && event.target.tagName.toLowerCase() === 'a') {
-      return;
-    } else {
-      event && event.preventDefault();
-    }
+    if (event && event.target.tagName.toLowerCase() === 'a') return;
+    event && event.preventDefault();
 
     const $selectedElement = $(event.currentTarget);
     const flipType = this.model.get('_flipType');
@@ -86,9 +83,9 @@ class Flipcard extends ComponentView {
     }
     
     this.setVisited();
-    $flipcardItem = $selectedElement.parents('.flipcard__item');
-    const $frontflipcard = $flipcardItem.find('.flipcard__item-front');
-    this.focusOnFlipcard($flipcardItem, $frontflipcard.is(':visible'));
+    //$flipcardItem = $selectedElement.parents('.flipcard__item');
+    //const $frontflipcard = $flipcardItem.find('.flipcard__item-front');
+    //this.focusOnFlipcard($flipcardItem, $frontflipcard.is(':visible'));
   }
 
   // This function will be responsible to perform All flip on flipcard

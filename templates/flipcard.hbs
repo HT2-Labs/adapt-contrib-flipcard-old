@@ -3,10 +3,10 @@
     <div class="flipcard__widget component__widget clearfix">
       {{#each _items}}
         <div class="flipcard__item component__item item-{{@index}} {{_flipDirection}}">
-          <button class="flipcard__item-face flipcard__item-front" role="button" aria-label="{{frontImage.alt}}">
+          <div class="flipcard__item-face flipcard__item-front" role="button" aria-label="{{frontImage.alt}}">
             <img src="{{frontImage.src}}" class="flipcard__item-frontImage">
-          </button>
-          <button class="flipcard__item-face flipcard__item-back" role="button" aria-label="{{backTitle}} {{{compile backBody}}}">
+          </div>
+          <div class="flipcard__item-face flipcard__item-back" role="button" aria-label="{{backTitle}} {{{compile backBody}}}">
             {{#if backTitle}}
               <div class="flipcard__item-back-title" role="heading" aria-live="polite">
                 {{backTitle}}
@@ -17,7 +17,7 @@
                 {{{compile backBody}}}
               </div>
             {{/if}}
-          </button>
+          </div>
        </div>
       {{/each}}
   </div>
