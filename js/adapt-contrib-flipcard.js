@@ -90,7 +90,9 @@ define([
         this.performSingleFlip($selectedElement);
       }
 
-      this.focusOnFlipcard($selectedElement);
+      _.defer(() => {
+        this.focusOnFlipcard($selectedElement);
+      });
     }
 
     // This function will be responsible to perform All flip on flipcard
