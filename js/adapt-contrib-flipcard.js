@@ -109,8 +109,6 @@ define([
         $frontflipcard.fadeOut(flipTime, () => {
           $backflipcard.fadeIn(flipTime);
         });
-        
-        $backflipcard.ontransitionend(() => console.log('testing'));
       } else if ($backflipcard.is(':visible')) {
         $backflipcard.fadeOut(flipTime, () => {
           $frontflipcard.fadeIn(flipTime);
