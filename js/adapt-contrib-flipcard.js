@@ -77,9 +77,8 @@ define([
     onClickFlipItem(event) {
       if (event && event.target.tagName.toLowerCase() === 'a') {
         return;
-      } else {
-        event && event.preventDefault();
       }
+      event && event.preventDefault();
 
       const $selectedElement = $(event.currentTarget).parents('.flipcard__item');
       const flipType = this.model.get('_flipType');
@@ -89,10 +88,7 @@ define([
       } else if (flipType === 'singleFlip') {
         this.performSingleFlip($selectedElement);
       }
-
-      _.defer(() => {
-        this.focusOnFlipcard($selectedElement);
-      });
+      this.focusOnFlipcard($selectedElement);
     }
 
     // This function will be responsible to perform All flip on flipcard
@@ -113,6 +109,8 @@ define([
         $frontflipcard.fadeOut(flipTime, () => {
           $backflipcard.fadeIn(flipTime);
         });
+        
+        $backflipcard.ontransitionend(() => console.log('testing'));
       } else if ($backflipcard.is(':visible')) {
         $backflipcard.fadeOut(flipTime, () => {
           $frontflipcard.fadeIn(flipTime);
@@ -162,17 +160,10 @@ define([
     focusOnFlipcard($selectedElement) {
       const classFlipcardFront = '.flipcard__item-front';
       const classFlipcardBack = '.flipcard__item-back';
-      const $flipcardFront = $selectedElement.find(classFlipcardFront);
-      const $flipcardBack = $selectedElement.find(classFlipcardBack);
 
-      _.defer(() => {
-        Adapt.a11y.toggleAccessibleEnabled($flipcardFront, !$selectedElement.hasClass('flipcard__flip'));
-        Adapt.a11y.toggleAccessibleEnabled($flipcardBack, $selectedElement.hasClass('flipcard__flip'));
-      });
-
-      const delayTime = (this.model.get('_flipTime') + 100) || 300;
+      const delayTime = (this.model.get('_flipTime')) || 300;
       _.delay(() => {
-        Adapt.a11y.focusFirst($selectedElement, { defer: true });
+        Adapt.a11y.focusFirst(($selectedElement.hasClass('flipcard__flip')) ? classFlipcardBack : classFlipcardFront);
       }, delayTime);
     }
 
