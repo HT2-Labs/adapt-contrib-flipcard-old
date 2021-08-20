@@ -160,7 +160,9 @@ define([
 
       const delayTime = (this.model.get('_flipTime')) || 300;
       _.delay(() => {
-        Adapt.a11y.focusFirst(($selectedElement.hasClass('flipcard__flip')) ? classFlipcardBack : classFlipcardFront);
+        Adapt.a11y.focusFirst(($selectedElement.hasClass('flipcard__flip'))
+          ? $selectedElement.find(classFlipcardBack)
+          : $selectedElement.find(classFlipcardFront));
       }, delayTime);
     }
 
