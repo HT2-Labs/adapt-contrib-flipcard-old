@@ -174,7 +174,6 @@ class Flipcard extends ComponentView {
       role: 'button'
     });
 
-    // Adapt.a11y.toggleAccessible($selectedElement.find(classFlipcardBack), $selectedElement.hasClass('flipcard__flip'));
     if (!$selectedElement.hasClass('flipcard__flip')) {
       $selectedElement.find(classFlipcardBack).attr({
         'aria-hidden': true
@@ -183,7 +182,7 @@ class Flipcard extends ComponentView {
       $selectedElement.find(classFlipcardBack)
         .removeAttr('role');
     }
-    // Adapt.a11y.toggleAccessible($selectedElement.find(classFlipcardFront), !$selectedElement.hasClass('flipcard__flip'));
+
     Adapt.a11y.focusFirst(($selectedElement.hasClass('flipcard__flip'))
       ? $selectedElement.find(classFlipcardBack)
       : $selectedElement.find(classFlipcardFront));
