@@ -1,5 +1,6 @@
 import ComponentView from 'coreViews/componentView';
 import Adapt from 'coreJS/adapt';
+import _ from 'underscore';
 
 class Flipcard extends ComponentView {
 
@@ -8,6 +9,15 @@ class Flipcard extends ComponentView {
       'click .flipcard__item': 'onClickFlipItem',
       'keypress .flipcard__item': 'onClickFlipItem'
     };
+  }
+
+  preRender() {
+    this.model.set('_items',
+      this.model.get('_items').map(obj => ({
+        ...obj,
+        backBodyText: $(obj.backBody).text()
+      }))
+    );
   }
 
   // this is used to set ready status for current component on postRender.
@@ -157,6 +167,10 @@ class Flipcard extends ComponentView {
     const classFlipcardBack = '.flipcard__item-back';
 
     const delayTime = (this.model.get('_flipTime')) || 300;
+    _.defer(() => {
+      Adapt.a11y.toggleAccessible($selectedElement.find(classFlipcardBack), $selectedElement.hasClass('flipcard__flip'));
+      Adapt.a11y.toggleAccessible($selectedElement.find(classFlipcardFront), !$selectedElement.hasClass('flipcard__flip'));
+    });
     _.delay(() => {
       Adapt.a11y.focusFirst(($selectedElement.hasClass('flipcard__flip'))
         ? $selectedElement.find(classFlipcardBack)
