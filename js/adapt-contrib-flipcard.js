@@ -36,6 +36,11 @@ class Flipcard extends ComponentView {
       this.reRender();
       this.setReadyStatus();
     });
+
+    this.$('.flipcard__item-face').on('transitionend', () => {
+      if (!this.$selectedElement) return;
+      this.focusOnFlipcard(this.$selectedElement);
+    });
   }
 
   // Used to check if the flipcard should reset on revisit
@@ -93,7 +98,7 @@ class Flipcard extends ComponentView {
     } else if (flipType === 'singleFlip') {
       this.performSingleFlip($selectedElement);
     }
-    this.focusOnFlipcard($selectedElement);
+    this.$selectedElement = $selectedElement;
   }
 
   // This function will be responsible to perform All flip on flipcard
@@ -164,17 +169,24 @@ class Flipcard extends ComponentView {
   focusOnFlipcard($selectedElement) {
     const classFlipcardFront = '.flipcard__item-front';
     const classFlipcardBack = '.flipcard__item-back';
-
-    const delayTime = (this.model.get('_flipTime')) || 300;
-    _.defer(() => {
-      Adapt.a11y.toggleAccessible($selectedElement.find(classFlipcardBack), $selectedElement.hasClass('flipcard__flip'));
-      Adapt.a11y.toggleAccessible($selectedElement.find(classFlipcardFront), !$selectedElement.hasClass('flipcard__flip'));
+    $selectedElement.find(classFlipcardBack).attr({
+      'aria-hidden': false,
+      role: 'button'
     });
-    _.delay(() => {
-      Adapt.a11y.focusFirst(($selectedElement.hasClass('flipcard__flip'))
-        ? $selectedElement.find(classFlipcardBack)
-        : $selectedElement.find(classFlipcardFront));
-    }, delayTime);
+
+    // Adapt.a11y.toggleAccessible($selectedElement.find(classFlipcardBack), $selectedElement.hasClass('flipcard__flip'));
+    if (!$selectedElement.hasClass('flipcard__flip')) {
+      $selectedElement.find(classFlipcardBack).attr({
+        'aria-hidden': true
+      });
+
+      $selectedElement.find(classFlipcardBack)
+        .removeAttr('role');
+    }
+    // Adapt.a11y.toggleAccessible($selectedElement.find(classFlipcardFront), !$selectedElement.hasClass('flipcard__flip'));
+    Adapt.a11y.focusFirst(($selectedElement.hasClass('flipcard__flip'))
+      ? $selectedElement.find(classFlipcardBack)
+      : $selectedElement.find(classFlipcardFront));
   }
 
   // This function will set the visited status for particular flipcard item.
