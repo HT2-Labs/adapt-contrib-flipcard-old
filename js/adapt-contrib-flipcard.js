@@ -37,10 +37,7 @@ class Flipcard extends ComponentView {
       this.reRender();
       this.setReadyStatus();
     });
-
-    this.$('.flipcard__item-face').on('transitionend', () => {
-      this.focusOnFlipcard(this.$selectedElement ?? $items);
-    });
+    this.focusOnFlipcard($items);
   }
 
   // Used to check if the flipcard should reset on revisit
@@ -93,12 +90,15 @@ class Flipcard extends ComponentView {
     const $selectedElement = $(event.currentTarget);
     const flipType = this.model.get('_flipType');
 
+    this.$('.flipcard__item-face').on('transitionend', () => {
+      this.focusOnFlipcard($selectedElement);
+    });
+
     if (flipType === 'allFlip') {
       this.performAllFlip($selectedElement);
     } else if (flipType === 'singleFlip') {
       this.performSingleFlip($selectedElement);
     }
-    this.$selectedElement = $selectedElement;
   }
 
   // This function will be responsible to perform All flip on flipcard
