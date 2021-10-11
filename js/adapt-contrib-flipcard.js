@@ -1,5 +1,6 @@
 import ComponentView from 'coreViews/componentView';
 import Adapt from 'coreJS/adapt';
+import _ from 'underscore';
 
 class Flipcard extends ComponentView {
 
@@ -38,8 +39,7 @@ class Flipcard extends ComponentView {
     });
 
     this.$('.flipcard__item-face').on('transitionend', () => {
-      if (!this.$selectedElement) return;
-      this.focusOnFlipcard(this.$selectedElement);
+      this.focusOnFlipcard(this.$selectedElement ?? $items);
     });
   }
 
