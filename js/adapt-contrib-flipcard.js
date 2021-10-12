@@ -175,7 +175,6 @@ class Flipcard extends ComponentView {
   }
 
   focusOnFlipcard($selectedElement, isSingleFlip = false) {
-    console.log('flipcard is flipped: ' + $selectedElement.hasClass('flipcard__flip'));
     const classFlipcardFront = '.flipcard__label-front';
     const classFlipcardBack = '.flipcard__label-back';
     const index = this.$('.flipcard__item').index($selectedElement);
@@ -184,7 +183,7 @@ class Flipcard extends ComponentView {
     $selectedElement.removeAttr('aria-label');
     const isFlipped = $selectedElement.hasClass('flipcard__flip');
     const platform = navigator?.platform?.toLowerCase();
-    if (platform === 'mac'  || platform === 'macintel' || platform === 'iphone' || platform === 'ipad') {
+    if (platform === 'mac' || platform === 'macintel' || platform === 'iphone' || platform === 'ipad') {
       Adapt.a11y.toggleHidden($selectedElement.find(classFlipcardFront), isFlipped);
       Adapt.a11y.toggleHidden($selectedElement.find(classFlipcardBack), !isFlipped);
       if (isFlipped) {
