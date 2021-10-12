@@ -37,7 +37,6 @@ class Flipcard extends ComponentView {
       this.reRender();
       this.setReadyStatus();
     });
-    this.focusOnFlipcard($items);
   }
 
   // Used to check if the flipcard should reset on revisit
@@ -82,18 +81,22 @@ class Flipcard extends ComponentView {
 
   // Click or Touch event handler for flip card.
   onClickFlipItem(event) {
+    this.isFlipped = true;
     if (event && event.target.tagName.toLowerCase() === 'a') {
       return;
     }
     event && event.preventDefault();
 
     const $selectedElement = $(event.currentTarget);
-    const flipType = this.model.get('_flipType');
-
-    this.$('.flipcard__item-face').on('transitionend', () => {
+    let isFlipcardFocused = false;
+    this.$('.flipcard__item').on('transitionend', () => {
+      if (isFlipcardFocused) return;
       this.focusOnFlipcard($selectedElement);
+      isFlipcardFocused = true;
     });
 
+    const flipType = this.model.get('_flipType');
+    this.$selectedElement = $selectedElement;
     if (flipType === 'allFlip') {
       this.performAllFlip($selectedElement);
     } else if (flipType === 'singleFlip') {
@@ -145,9 +148,11 @@ class Flipcard extends ComponentView {
       } else {
         const visibleflipcardBack = flipcardContainer.find('.flipcard__item-back:visible');
         if (visibleflipcardBack.length > 0) {
+          visibleflipcardBack.attr('aria-hidden', true);
           visibleflipcardBack.fadeOut(flipTime, () => {
             flipcardContainer.find('.flipcard__item-front:hidden').fadeIn(flipTime);
           });
+          this.focusOnFlipcard(visibleflipcardBack.parents('.flipcard__item'), true);
         }
         frontflipcard.fadeOut(flipTime, () => {
           backflipcard.fadeIn(flipTime);
@@ -157,8 +162,11 @@ class Flipcard extends ComponentView {
       if ($selectedElement.hasClass(flipcardFlip)) {
         $selectedElement.removeClass(flipcardFlip);
       } else {
+        const itemToFlip = $items.parent().find('.flipcard__flip');
         flipcardContainer.find($items).removeClass(flipcardFlip);
         $selectedElement.addClass(flipcardFlip);
+        if (itemToFlip.length === 0) return;
+        this.focusOnFlipcard(itemToFlip, true);
       }
     }
 
@@ -166,26 +174,44 @@ class Flipcard extends ComponentView {
     this.setVisited(flipcardElementIndex);
   }
 
-  focusOnFlipcard($selectedElement) {
-    const classFlipcardFront = '.flipcard__item-front';
-    const classFlipcardBack = '.flipcard__item-back';
-    $selectedElement.find(classFlipcardBack).attr({
-      'aria-hidden': false,
-      role: 'button'
-    });
+  focusOnFlipcard($selectedElement, isSingleFlip = false) {
+    console.log('flipcard is flipped: ' + $selectedElement.hasClass('flipcard__flip'));
+    const classFlipcardFront = '.flipcard__label-front';
+    const classFlipcardBack = '.flipcard__label-back';
+    const index = this.$('.flipcard__item').index($selectedElement);
+    const item = this.model.get('_items')[index];
 
-    if (!$selectedElement.hasClass('flipcard__flip')) {
-      $selectedElement.find(classFlipcardBack).attr({
-        'aria-hidden': true
-      });
+    $selectedElement.removeAttr('aria-label');
+    const isFlipped = $selectedElement.hasClass('flipcard__flip');
+    const platform = navigator?.platform?.toLowerCase();
+    if (platform === 'mac'  || platform === 'macintel' || platform === 'iphone' || platform === 'ipad') {
+      Adapt.a11y.toggleHidden($selectedElement.find(classFlipcardFront), isFlipped);
+      Adapt.a11y.toggleHidden($selectedElement.find(classFlipcardBack), !isFlipped);
+      if (isFlipped) {
+        $selectedElement.find(classFlipcardBack).attr('aria-label', item.backTitle + ' ' + item.backBodyText);
+      } else {
+        $selectedElement.find(classFlipcardFront).attr('aria-label', item.frontImage.alt);
+      }
 
-      $selectedElement.find(classFlipcardBack)
-        .removeAttr('role');
+      if (isSingleFlip) return;
+      const flipcardToFocus = isFlipped ? classFlipcardBack : classFlipcardFront;
+      $selectedElement.blur();
+      Adapt.a11y.focusFirst($selectedElement.find(flipcardToFocus));
+      return;
     }
 
-    Adapt.a11y.focusFirst(($selectedElement.hasClass('flipcard__flip'))
-      ? $selectedElement.find(classFlipcardBack)
-      : $selectedElement.find(classFlipcardFront));
+    if (isFlipped) {
+      $selectedElement.attr('aria-label', item.backTitle + ' ' + item.backBodyText);
+    } else {
+      $selectedElement.attr('aria-label', item.frontImage.alt);
+    }
+
+    if (isSingleFlip) return;
+    $selectedElement.parent().blur();
+    $selectedElement.blur();
+    Adapt.a11y.focusFirst($('#a11y-focuser'));
+    Adapt.a11y.focusFirst($selectedElement);
+    Adapt.a11y.focusFirst($selectedElement);
   }
 
   // This function will set the visited status for particular flipcard item.
