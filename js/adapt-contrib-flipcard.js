@@ -206,10 +206,7 @@ class Flipcard extends ComponentView {
     }
 
     if (isSingleFlip) return;
-    $selectedElement.parent().blur();
     $selectedElement.blur();
-    Adapt.a11y.focusFirst($('#a11y-focuser'));
-    Adapt.a11y.focusFirst($selectedElement);
     Adapt.a11y.focusFirst($selectedElement);
   }
 
