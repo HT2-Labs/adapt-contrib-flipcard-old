@@ -18,6 +18,9 @@ class Flipcard extends ComponentView {
         backBodyText: $(obj.backBody).text()
       }))
     );
+    // is apple platform used to determine if voiceover is being used
+    const platform = navigator?.platform?.toLowerCase();
+    this.isApplePlatform = (platform === 'mac' || platform === 'macintel' || platform === 'iphone' || platform === 'ipad');
   }
 
   // this is used to set ready status for current component on postRender.
@@ -107,7 +110,7 @@ class Flipcard extends ComponentView {
   // This function will be responsible to perform All flip on flipcard
   // where all cards can flip and stay in the flipped state.
   performAllFlip($selectedElement) {
-    const flipcardElementIndex = this.$('.flipcard__item').index($selectedElement);
+    const flipcardElementIndex = $selectedElement.data('index');
     if (Modernizr.testProp('transformStyle', 'preserve-3d')) {
       $selectedElement.toggleClass('flipcard__flip');
       this.setVisited(flipcardElementIndex);
@@ -147,7 +150,7 @@ class Flipcard extends ComponentView {
         });
       } else {
         const visibleflipcardBack = flipcardContainer.find('.flipcard__item-back:visible');
-        if (visibleflipcardBack.length > 0) {
+        if (visibleflipcardBack.length) {
           visibleflipcardBack.attr('aria-hidden', true);
           visibleflipcardBack.fadeOut(flipTime, () => {
             flipcardContainer.find('.flipcard__item-front:hidden').fadeIn(flipTime);
@@ -163,27 +166,27 @@ class Flipcard extends ComponentView {
         $selectedElement.removeClass(flipcardFlip);
       } else {
         const itemToFlip = $items.parent().find('.flipcard__flip');
+        const hasClassFlipcardFlip = flipcardContainer.find($items).hasClass('flipcard__flip');
         flipcardContainer.find($items).removeClass(flipcardFlip);
         $selectedElement.addClass(flipcardFlip);
-        if (itemToFlip.length === 0) return;
+        if (!itemToFlip.length || (!this.isApplePlatform && !hasClassFlipcardFlip)) return;
         this.focusOnFlipcard(itemToFlip, true);
       }
     }
 
-    const flipcardElementIndex = this.$('.flipcard__item').index($selectedElement);
+    const flipcardElementIndex = $selectedElement.data('index');
     this.setVisited(flipcardElementIndex);
   }
 
   focusOnFlipcard($selectedElement, isSingleFlip = false) {
     const classFlipcardFront = '.flipcard__label-front';
     const classFlipcardBack = '.flipcard__label-back';
-    const index = this.$('.flipcard__item').index($selectedElement);
+    const index = $selectedElement.data('index');
     const item = this.model.get('_items')[index];
 
     $selectedElement.removeAttr('aria-label');
     const isFlipped = $selectedElement.hasClass('flipcard__flip');
-    const platform = navigator?.platform?.toLowerCase();
-    if (platform === 'mac' || platform === 'macintel' || platform === 'iphone' || platform === 'ipad') {
+    if (this.isApplePlatform) {
       Adapt.a11y.toggleHidden($selectedElement.find(classFlipcardFront), isFlipped);
       Adapt.a11y.toggleHidden($selectedElement.find(classFlipcardBack), !isFlipped);
       if (isFlipped) {

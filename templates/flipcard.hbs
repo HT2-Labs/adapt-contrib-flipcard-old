@@ -2,7 +2,7 @@
   {{> component this}}
     <div class="flipcard__widget component__widget clearfix">
       {{#each _items}}
-        <button class="flipcard__item component__item item-{{@index}} {{_flipDirection}}" aria-label="{{frontImage.alt}}">
+        <button class="flipcard__item component__item item-{{@index}} {{_flipDirection}}" aria-label="{{frontImage.alt}}" data-index="{{@index}}">
           <div class="flipcard__label-front" role="button">
             <div class="flipcard__item-face flipcard__item-front js-item-label" aria-hidden="true">
               <img src="{{frontImage.src}}" class="flipcard__item-frontImage">
