@@ -166,10 +166,9 @@ class Flipcard extends ComponentView {
         $selectedElement.removeClass(flipcardFlip);
       } else {
         const itemToFlip = $items.parent().find('.flipcard__flip');
-        const hasClassFlipcardFlip = flipcardContainer.find($items).hasClass('flipcard__flip');
         flipcardContainer.find($items).removeClass(flipcardFlip);
         $selectedElement.addClass(flipcardFlip);
-        if (!itemToFlip.length || (!this.isApplePlatform && !hasClassFlipcardFlip)) return;
+        if (!itemToFlip.length) return;
         this.focusOnFlipcard(itemToFlip, true);
       }
     }
@@ -189,7 +188,7 @@ class Flipcard extends ComponentView {
     if (this.isApplePlatform) {
       Adapt.a11y.toggleHidden($selectedElement.find(classFlipcardFront), isFlipped);
       Adapt.a11y.toggleHidden($selectedElement.find(classFlipcardBack), !isFlipped);
-      if (isFlipped) {
+      if (isFlipped && !isSingleFlip) {
         $selectedElement.find(classFlipcardBack).attr('aria-label', item.backTitle + ' ' + item.backBodyText);
       } else {
         $selectedElement.find(classFlipcardFront).attr('aria-label', item.frontImage.alt);
@@ -202,7 +201,7 @@ class Flipcard extends ComponentView {
       return;
     }
 
-    if (isFlipped) {
+    if (isFlipped && !isSingleFlip) {
       $selectedElement.attr('aria-label', item.backTitle + ' ' + item.backBodyText);
     } else {
       $selectedElement.attr('aria-label', item.frontImage.alt);
