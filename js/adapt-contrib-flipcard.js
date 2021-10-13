@@ -186,8 +186,8 @@ class Flipcard extends ComponentView {
     $selectedElement.removeAttr('aria-label');
     const isFlipped = $selectedElement.hasClass('flipcard__flip');
     if (this.isApplePlatform) {
-      Adapt.a11y.toggleHidden($selectedElement.find(classFlipcardFront), isFlipped);
-      Adapt.a11y.toggleHidden($selectedElement.find(classFlipcardBack), !isFlipped);
+      Adapt.a11y.toggleHidden($selectedElement.find(classFlipcardFront), (isFlipped && !isSingleFlip));
+      Adapt.a11y.toggleHidden($selectedElement.find(classFlipcardBack), (!isFlipped || isSingleFlip));
       if (isFlipped && !isSingleFlip) {
         $selectedElement.find(classFlipcardBack).attr('aria-label', item.backTitle + ' ' + item.backBodyText);
       } else {
