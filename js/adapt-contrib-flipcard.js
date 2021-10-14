@@ -19,8 +19,7 @@ class Flipcard extends ComponentView {
       }))
     );
     // is apple platform used to determine if voiceover is being used
-    const platform = navigator?.platform?.toLowerCase();
-    this.isApplePlatform = (platform === 'mac' || platform === 'macintel' || platform === 'iphone' || platform === 'ipad');
+    this.isApplePlatform = (Adapt.device.isAppleDevice() || Adapt.device.getOperatingSystem() === 'mac');
   }
 
   // this is used to set ready status for current component on postRender.
