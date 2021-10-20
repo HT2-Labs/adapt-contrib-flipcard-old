@@ -1,5 +1,3 @@
-@flipcard-item-transition: all .4s ease-in-out;
-
 // Handles all properties
 .vendor-prefix (@property, @value) {
   -webkit-@{property}: @value;
@@ -64,9 +62,8 @@
       backface-visibility: hidden;
 
       height: 100%;
-      position: absolute;
 
-      .transition(@flipcard-item-transition);
+      transition: all .4s ease-in-out;
 
       -webkit-transform-style: preserve-3d;
       -moz-transform-style: preserve-3d;
@@ -127,7 +124,6 @@
     }
 
     &.flipcard__flip {
-      cursor: auto;
 
       .flipcard__item {
         &-back-body,
