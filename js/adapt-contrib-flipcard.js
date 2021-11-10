@@ -87,7 +87,7 @@ class Flipcard extends ComponentView {
     if (event && event.target.tagName.toLowerCase() === 'a') {
       return;
     }
-    event && event.preventDefault();
+    event && event.stopImmediatePropagation();
 
     const $selectedElement = $(event.currentTarget);
     let isFlipcardFocused = false;
