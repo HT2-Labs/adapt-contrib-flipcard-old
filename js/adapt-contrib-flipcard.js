@@ -87,7 +87,7 @@ class Flipcard extends ComponentView {
     if (event && event.target.tagName.toLowerCase() === 'a') {
       return;
     }
-    event && event.stopImmediatePropagation();
+    event && event.preventDefault();
 
     const $selectedElement = $(event.currentTarget);
     let isFlipcardFocused = false;
@@ -95,6 +95,7 @@ class Flipcard extends ComponentView {
       if (isFlipcardFocused) return;
       this.focusOnFlipcard($selectedElement);
       isFlipcardFocused = true;
+      Adapt.a11y.focus($selectedElement.find('.flipcard__item-back'));
     });
 
     const flipType = this.model.get('_flipType');
