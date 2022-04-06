@@ -1,6 +1,7 @@
+import a11y from 'core/js/a11y';
+import components from 'core/js/components';
 import ComponentView from 'coreViews/componentView';
-import Adapt from 'coreJS/adapt';
-import _ from 'underscore';
+import device from 'core/js/device';
 
 class Flipcard extends ComponentView {
 
@@ -19,7 +20,7 @@ class Flipcard extends ComponentView {
       }))
     );
     // is apple platform used to determine if voiceover is being used
-    this.isApplePlatform = (Adapt.device.isAppleDevice() || Adapt.device.getOperatingSystem() === 'mac');
+    this.isApplePlatform = (device.isAppleDevice() || device.getOperatingSystem() === 'mac');
   }
 
   // this is used to set ready status for current component on postRender.
@@ -185,8 +186,8 @@ class Flipcard extends ComponentView {
     $selectedElement.removeAttr('aria-label');
     const isFlipped = $selectedElement.hasClass('flipcard__flip');
     if (this.isApplePlatform) {
-      Adapt.a11y.toggleHidden($selectedElement.find(classFlipcardFront), (isFlipped && !isSingleFlip));
-      Adapt.a11y.toggleHidden($selectedElement.find(classFlipcardBack), (!isFlipped || isSingleFlip));
+      a11y.toggleHidden($selectedElement.find(classFlipcardFront), (isFlipped && !isSingleFlip));
+      a11y.toggleHidden($selectedElement.find(classFlipcardBack), (!isFlipped || isSingleFlip));
       if (isFlipped && !isSingleFlip) {
         $selectedElement.find(classFlipcardBack).attr('aria-label', item.backTitle + ' ' + item.backBodyText);
       } else {
@@ -196,7 +197,7 @@ class Flipcard extends ComponentView {
       if (isSingleFlip) return;
       const flipcardToFocus = isFlipped ? classFlipcardBack : classFlipcardFront;
       $selectedElement.blur();
-      Adapt.a11y.focusFirst($selectedElement.find(flipcardToFocus));
+      a11y.focusFirst($selectedElement.find(flipcardToFocus));
       return;
     }
 
@@ -208,7 +209,7 @@ class Flipcard extends ComponentView {
 
     if (isSingleFlip) return;
     $selectedElement.blur();
-    Adapt.a11y.focusFirst($selectedElement);
+    a11y.focusFirst($selectedElement);
   }
 
   // This function will set the visited status for particular flipcard item.
@@ -232,6 +233,6 @@ class Flipcard extends ComponentView {
   }
 }
 
-Adapt.register('flipcard', Flipcard);
+components.register('flipcard', Flipcard);
 
 export default Flipcard;
