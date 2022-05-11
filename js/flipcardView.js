@@ -1,6 +1,5 @@
 import Adapt from 'core/js/adapt';
 import ComponentView from 'coreViews/componentView';
-import _ from 'underscore';
 
 class FlipcardView extends ComponentView {
 
