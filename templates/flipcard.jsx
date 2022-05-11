@@ -28,8 +28,8 @@ export default function flipcard(props) {
             >
               <img
                 className='flipcard__item-frontImage'
-                src={frontImage.src}
-                aria-label={frontImage.alt}>
+                src={frontImage?.src}
+                aria-label={frontImage?.alt}>
               </img>
             </div>
 
