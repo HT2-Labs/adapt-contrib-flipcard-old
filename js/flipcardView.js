@@ -2,7 +2,7 @@ import Adapt from 'core/js/adapt';
 import ComponentView from 'coreViews/componentView';
 import _ from 'underscore';
 
-class Flipcard extends ComponentView {
+class FlipcardView extends ComponentView {
 
   events() {
     return {
@@ -186,6 +186,6 @@ class Flipcard extends ComponentView {
   }
 }
 
-Flipcard.template = 'flipcard.jsx';
+FlipcardView.template = 'flipcard.jsx';
 
-export default Flipcard;
+export default FlipcardView;
