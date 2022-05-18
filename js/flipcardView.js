@@ -37,7 +37,7 @@ class FlipcardView extends ComponentView {
     });
 
     this.$('.flipcard__item-face').on('transitionend', () => {
-      Adapt.a11y.focus(this.$('.flipcard__item-back'));
+      this.toggleFocusedFace();
     });
   }
 
@@ -96,7 +96,6 @@ class FlipcardView extends ComponentView {
     } else if (flipType === 'singleFlip') {
       this.performSingleFlip($selectedElement);
     }
-    this.$selectedElement = $selectedElement;
   }
 
   // This function will be responsible to perform All flip on flipcard
@@ -162,6 +161,14 @@ class FlipcardView extends ComponentView {
 
     const flipcardElementIndex = this.$('.flipcard__item').index($selectedElement);
     this.setVisited(flipcardElementIndex);
+  }
+
+  toggleFocusedFace() {
+    const flipcardItem = this.$('.flipcard__item');
+    const flipcardFront = this.$('.flipcard__item-front');
+    const flipcardBack = this.$('.flipcard__item-back');
+
+    Adapt.a11y.focus((flipcardItem.hasClass('flipcard__flip')) ? flipcardBack : flipcardFront);
   }
 
   // This function will set the visited status for particular flipcard item.
