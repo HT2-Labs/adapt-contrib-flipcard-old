@@ -2,8 +2,6 @@ import React from 'react';
 import { templates, classes, compile } from 'core/js/reactHelpers';
 
 export default function flipcard(props) {
-  const {} = props;
-
   return (
     <div
       className='component__inner flipcard__inner' 
