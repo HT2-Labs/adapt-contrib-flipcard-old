@@ -1,4 +1,4 @@
-import Adapt from 'core/js/adapt';
+import a11y from 'core/js/a11y';
 import ComponentView from 'coreViews/componentView';
 
 class FlipcardView extends ComponentView {
@@ -36,8 +36,9 @@ class FlipcardView extends ComponentView {
       this.setReadyStatus();
     });
 
-    this.$('.flipcard__item-face').on('transitionend', () => {
-      this.toggleFocusedFace();
+    this.$('.flipcard__item-face').on('transitionend', (event) => {
+      const flipcardItem = $(event.currentTarget).parent();
+      this.toggleFocusedFace($(flipcardItem));
     });
   }
 
@@ -163,12 +164,13 @@ class FlipcardView extends ComponentView {
     this.setVisited(flipcardElementIndex);
   }
 
-  toggleFocusedFace() {
-    const flipcardItem = this.$('.flipcard__item');
-    const flipcardFront = this.$('.flipcard__item-front');
-    const flipcardBack = this.$('.flipcard__item-back');
+  toggleFocusedFace($flipcardItem) {
+    const flipcardFront = $flipcardItem.find('.flipcard__item-front');
+    const flipcardBack = $flipcardItem.find('.flipcard__item-back');
 
-    Adapt.a11y.focus((flipcardItem.hasClass('flipcard__flip')) ? flipcardBack : flipcardFront);
+    const focusItem = $flipcardItem.hasClass('flipcard__flip') ? flipcardBack : flipcardFront;
+
+    a11y.focus(focusItem);
   }
 
   // This function will set the visited status for particular flipcard item.
