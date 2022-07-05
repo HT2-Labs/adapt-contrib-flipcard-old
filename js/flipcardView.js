@@ -35,11 +35,6 @@ class FlipcardView extends ComponentView {
       this.reRender();
       this.setReadyStatus();
     });
-
-    this.$('.flipcard__item-face').on('transitionend', (event) => {
-      const flipcardItem = $(event.currentTarget).parent();
-      this.toggleFocusedFace($(flipcardItem));
-    });
   }
 
   // Used to check if the flipcard should reset on revisit
@@ -97,6 +92,8 @@ class FlipcardView extends ComponentView {
     } else if (flipType === 'singleFlip') {
       this.performSingleFlip($selectedElement);
     }
+
+    this.toggleFocusedFace($selectedElement);
   }
 
   // This function will be responsible to perform All flip on flipcard

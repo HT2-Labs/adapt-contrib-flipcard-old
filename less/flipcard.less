@@ -63,6 +63,8 @@
 
       height: 100%;
 
+      transition: all 0.4s ease-in-out;
+
       -webkit-transform-style: preserve-3d;
       -moz-transform-style: preserve-3d;
       -ms-transform-style: preserve-3d;
@@ -167,7 +169,7 @@
   }
 
   // Make links on Flipcards not available on the front side
-  .flipcard__item-face.flipcard__item-back[aria-hidden='true'] {
+  .flipcard__item-face.flipcard__item-back[aria-hidden="true"] {
     pointer-events: none;
   }
 }
