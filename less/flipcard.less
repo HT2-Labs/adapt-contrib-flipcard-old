@@ -63,8 +63,6 @@
 
       height: 100%;
 
-      transition: all .4s ease-in-out;
-
       -webkit-transform-style: preserve-3d;
       -moz-transform-style: preserve-3d;
       -ms-transform-style: preserve-3d;
@@ -117,14 +115,13 @@
   // Hide/Show the items when flipped
   &__item {
     cursor: pointer;
-    
+
     &-back-body,
     &-back-title {
       display: none;
     }
 
     &.flipcard__flip {
-
       .flipcard__item {
         &-back-body,
         &-back-title {
@@ -135,7 +132,7 @@
         &-front {
           opacity: 0;
         }
-    
+
         // Show the back item
         &-back {
           pointer-events: all;
@@ -144,24 +141,24 @@
           overflow-y: auto;
         }
       }
-  
+
       // Reverse the X transform on vertical
       &.vertical {
         .flipcard__item-front {
           .transform(rotateX(180deg));
         }
-  
+
         .flipcard__item-back {
           .transform(rotateX(0deg));
         }
       }
-  
+
       //Reverse the Y transform on horizontal
       &.horizontal {
         .flipcard__item-front {
           .transform(rotateY(180deg));
         }
-  
+
         .flipcard__item-back {
           .transform(rotateY(0deg));
         }
@@ -170,7 +167,7 @@
   }
 
   // Make links on Flipcards not available on the front side
-  .flipcard__item-face.flipcard__item-back[aria-hidden="true"] {
+  .flipcard__item-face.flipcard__item-back[aria-hidden='true'] {
     pointer-events: none;
   }
 }
