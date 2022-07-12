@@ -3,8 +3,6 @@
   "version": "5.0.1",
   "framework": ">=5.18.8",
   "homepage": "https://github.com/learningpool/adapt-contrib-flipcard",
-  "issues": "https://github.com/learningpool/adapt-contrib-flipcard/issues",
-  "repository": "git://github.com/learningpool/adapt-contrib-flipcard.git",
   "authors": [
     "Himanshu Rajotia <himanshu.rajotia@exultcorp.com>",
     "Ciaran Duffy <ciaran@learningpool.com>"
