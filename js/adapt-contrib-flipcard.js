@@ -1,8 +1,8 @@
-import Adapt from 'core/js/adapt';
+import components from 'core/js/components';
 import FlipcardView from './flipcardView';
 import FlipcardModel from './flipcardModel';
 
-export default Adapt.register('flipcard', {
+export default components.register('flipcard', {
   model: FlipcardModel,
   view: FlipcardView
 });
