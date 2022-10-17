@@ -4,7 +4,7 @@ import { templates, classes, compile } from 'core/js/reactHelpers';
 export default function flipcard(props) {
   return (
     <div
-      className='component__inner flipcard__inner' 
+      className='component__inner flipcard__inner'
       role='region'
     >
 
@@ -13,8 +13,8 @@ export default function flipcard(props) {
       <div className='component__widget flipcard__widget clearfix'>
 
         {props._items.map(({ backBody, backTitle, frontImage, _flipDirection }, index) =>
-          
-          <div 
+
+          <div
             className={classes([
               `component__item flipcard__item item-${index} ${_flipDirection}`,
             ])}
@@ -23,6 +23,7 @@ export default function flipcard(props) {
             <div
               className='flipcard__item-face flipcard__item-front'
               role='button'
+              tabindex='0'
             >
               <img
                 className='flipcard__item-frontImage'
@@ -32,8 +33,9 @@ export default function flipcard(props) {
             </div>
 
             <div
-              className='flipcard__item-face flipcard__item-back' 
+              className='flipcard__item-face flipcard__item-back'
               role='button'
+              tabindex='0'
             >
               { backTitle &&
                 <div
@@ -51,7 +53,7 @@ export default function flipcard(props) {
                 </div>
               }
             </div>
-            
+
           </div>
         )}
       </div>
