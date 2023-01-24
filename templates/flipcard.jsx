@@ -23,6 +23,7 @@ export default function flipcard(props) {
             <div
               className='flipcard__item-face flipcard__item-front'
               role='button'
+              tabIndex='0'
             >
               <img
                 className='flipcard__item-frontImage'
