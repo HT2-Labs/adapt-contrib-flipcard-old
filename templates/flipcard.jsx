@@ -35,7 +35,7 @@ export default function flipcard(props) {
             <div
               className='flipcard__item-face flipcard__item-back'
               role='button'
-              tabIndex='0'
+              tabIndex='-1'
             >
               { backTitle &&
                 <div
