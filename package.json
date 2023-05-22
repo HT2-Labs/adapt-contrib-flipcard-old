@@ -2,7 +2,11 @@
   "name": "adapt-contrib-flipcard",
   "version": "5.1.1",
   "framework": ">=5.19.1",
-  "homepage": "https://github.com/learningpool/adapt-contrib-flipcard",
+  "homepage": "https://github.com/HT2-Labs/adapt-contrib-flipcard",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HT2-Labs/adapt-contrib-flipcard"
+  },
   "authors": [
     "Himanshu Rajotia <himanshu.rajotia@exultcorp.com>",
     "Ciaran Duffy <ciaran@learningpool.com>"
@@ -25,30 +29,8 @@
     "conventional-changelog-eslint": "^3.0.9",
     "semantic-release": "^19.0.3"
   },
-  "release": {
-    "plugins": [
-      "@semantic-release/release-notes-generator",
-      "@semantic-release/npm",
-      "@semantic-release/github",
-      [
-        "@semantic-release/commit-analyzer",
-        {
-          "preset": "eslint"
-        }
-      ],
-      [
-        "@semantic-release/git",
-        {
-          "assets": [
-            "bower.json",
-            "package.json"
-          ],
-          "message": "Chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-        }
-      ]
-    ]
-  },
   "scripts": {
-    "postversion": "cp package.json bower.json"
+    "postversion": "cp package.json bower.json",
+    "semantic-release": "semantic-release"
   }
 }
