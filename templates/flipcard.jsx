@@ -40,6 +40,8 @@ export default function flipcard(props) {
               { backTitle &&
                 <div
                   className='flipcard__item-back-title'
+                  role='heading'
+                  aria-level={'4'}
                   dangerouslySetInnerHTML={{ __html: compile(backTitle)}}
                 >
                 </div>
