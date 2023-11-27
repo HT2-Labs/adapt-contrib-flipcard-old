@@ -35,7 +35,6 @@ export default function flipcard(props) {
             <div
               className='flipcard__item-face flipcard__item-back'
               tabIndex='-1'
-              style={{ position: 'relative' }}
             >
               <button
                 className='flipcard__item-back-button'
