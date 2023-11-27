@@ -16,7 +16,7 @@ export default function flipcard(props) {
 
           <div
             className={classes([
-              `component__item flipcard__item item-${index} ${_flipDirection}`,
+              `component__item flipcard__item item-${index} ${_flipDirection}`
             ])}
             key={index}
           >
@@ -34,15 +34,18 @@ export default function flipcard(props) {
 
             <div
               className='flipcard__item-face flipcard__item-back'
-              role='button'
               tabIndex='-1'
+              style={{ position: 'relative' }}
             >
+              <button
+                className='flipcard__item-back-button'
+              />
               { backTitle &&
                 <div
                   className='flipcard__item-back-title'
                   role='heading'
                   aria-level={4}
-                  dangerouslySetInnerHTML={{ __html: compile(backTitle)}}
+                  dangerouslySetInnerHTML={{ __html: compile(backTitle) }}
                 >
                 </div>
               }
@@ -50,12 +53,11 @@ export default function flipcard(props) {
               { backBody &&
                 <div
                   className='flipcard__item-back-body'
-                  dangerouslySetInnerHTML={{ __html: compile(backBody)}}
+                  dangerouslySetInnerHTML={{ __html: compile(backBody) }}
                 >
                 </div>
               }
             </div>
-
           </div>
         )}
       </div>
