@@ -1,14 +1,14 @@
-<!-->Please title your PR according to eslint commit conventions</!-->
-<!-->See https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-eslint#eslint-convention for details</!-->
-<!-->e.g. "Fix: Semi rule incorrectly flagging extra semicolon (fixes #840)"</!-->
-<!-->or "Upgrade: Esprima to 1.2, switch to using comment attachment (fixes #730)"</!-->
+[//]: # (Please title your PR according to eslint commit conventions)
+[//]: # (See https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-eslint#eslint-convention for details)
 
-<!-->Link the PR to the original issue</!-->
-fixes ADAPT-123
+[//]: # (Link the PR to the original issue)
 
-<!-->Delete Fix, New, Breaking sections as appropriate</!-->
+[//]: # (Delete Fix, Update, New and/or Breaking sections as appropriate)
 ### Fix
 * A sentence describing each fix
+
+### Update
+* A sentence describing each update
 
 ### New
 * A sentence describing each new feature
@@ -16,9 +16,8 @@ fixes ADAPT-123
 ### Breaking
 * A sentence describing each breaking change
 
-<!-->List appropriate steps for testing if needed</!-->
+[//]: # (List appropriate steps for testing if needed)
 ### Testing
 1. Steps for testing
 
-<!-->Mention any other dependencies</!-->
-requires ADAPT-456
+[//]: # (Mention any other dependencies)
