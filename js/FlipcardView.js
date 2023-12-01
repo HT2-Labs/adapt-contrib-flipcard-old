@@ -2,7 +2,6 @@ import a11y from 'core/js/a11y';
 import ComponentView from 'coreViews/componentView';
 
 class FlipcardView extends ComponentView {
-
   events() {
     return {
       'click .flipcard__item': 'onClickFlipItem',
