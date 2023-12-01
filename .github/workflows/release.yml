@@ -3,27 +3,37 @@ on:
   push:
     branches:
       - master
+
+permissions:
+  contents: read # Checkout Permissions.
+
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: ${{ secrets.SEMANTIC_RELEASE_GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 'lts/*'
-          cache: yarn
+          cache: npm
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_GITHUB_TOKEN }}
-        run: yarn semantic-release
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run semantic-release
