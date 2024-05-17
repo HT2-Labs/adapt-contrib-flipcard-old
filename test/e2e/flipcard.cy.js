@@ -20,33 +20,39 @@ describe('Flipcard', function () {
       cy.testContainsOrNotExists('.flipcard__instruction', stripHtml(instruction));
       cy.testContainsOrNotExists('.flipcard__body', stripHtml(body));
 
+      // Item checks
       _items.forEach((item, index) => {
         let { backTitle, backBody, frontImage, _flipDirection } = item;
-        cy.get(`.flipcard__item.${_flipDirection}.item-${index}`)
+        // Check direction class is applied correctly
+        cy.get(`.flipcard__item.${_flipDirection}.item-${index}`);
+
         cy.get('.flipcard__item').eq(index).within(() => {
+          // Check item contents are as expected
           cy.testContainsOrNotExists('.flipcard__item-back-title', stripHtml(backTitle));
           cy.testContainsOrNotExists('.flipcard__item-back-body', stripHtml(backBody));
           cy.get('.flipcard__item-frontImage')
             .should('have.attr', 'src', frontImage.src)
-            .should('have.attr', 'aria-label', frontImage.alt)
+            .should('have.attr', 'aria-label', frontImage.alt);
           
-          cy.get('.flipcard__item-front').should('be.visible')
-          cy.get('.flipcard__item-back').should('not.be.visible')
+          // Make sure interacting switches the front and back correctly
+          cy.get('.flipcard__item-front').should('be.visible');
+          cy.get('.flipcard__item-back').should('not.be.visible');
           
-          cy.get('.flipcard__item-back').click()
+          cy.get('.flipcard__item-back').click();
           
-          cy.get('.flipcard__item-front').should('not.be.visible')
-          cy.get('.flipcard__item-back').should('be.visible')
+          cy.get('.flipcard__item-front').should('not.be.visible');
+          cy.get('.flipcard__item-back').should('be.visible');
           
-          cy.get('.flipcard__item-back').click()
+          cy.get('.flipcard__item-back').click();
 
-          cy.get('.flipcard__item-front').should('be.visible')
-          cy.get('.flipcard__item-back').should('not.be.visible')
+          cy.get('.flipcard__item-front').should('be.visible');
+          cy.get('.flipcard__item-back').should('not.be.visible');
 
-          cy.get('.flipcard__item-front').click()
+          cy.get('.flipcard__item-front').click();
         });
 
-        const flippedItemsCount = _flipType === 'allFlip' ? index + 1 : 1
+        // Check if single flip is selected that other flipcards are unflipped
+        const flippedItemsCount = _flipType === 'allFlip' ? index + 1 : 1;
         
         cy.get('.flipcard__flip').should('have.length', flippedItemsCount);
       });
