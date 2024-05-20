@@ -38,7 +38,7 @@ describe('Flipcard', function () {
           cy.get('.flipcard__item-front').should('be.visible');
           cy.get('.flipcard__item-back').should('not.be.visible');
           
-          cy.get('.flipcard__item-back').click();
+          cy.get('.flipcard__item-front').click();
           
           cy.get('.flipcard__item-front').should('not.be.visible');
           cy.get('.flipcard__item-back').should('be.visible');
