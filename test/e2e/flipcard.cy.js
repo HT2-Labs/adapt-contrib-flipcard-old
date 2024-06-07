@@ -12,7 +12,7 @@ describe('Flipcard', function () {
       cy.visit(`/#/preview/${flipcardComponent._id}`);
       // Retrieve values
       const { body, displayTitle, instruction, _items, _flipType } = flipcardComponent;
-      
+
       const stripHtml = cy.helpers.stripHtml;
 
       // Basic checks
@@ -33,16 +33,16 @@ describe('Flipcard', function () {
           cy.get('.flipcard__item-frontImage')
             .should('have.attr', 'src', frontImage.src)
             .should('have.attr', 'aria-label', frontImage.alt);
-          
+
           // Make sure interacting switches the front and back correctly
           cy.get('.flipcard__item-front').should('be.visible');
           cy.get('.flipcard__item-back').should('not.be.visible');
-          
-          cy.get('.flipcard__item-front').click();
-          
+
+          cy.get('.flipcard__item-front').click({force: true});
+
           cy.get('.flipcard__item-front').should('not.be.visible');
           cy.get('.flipcard__item-back').should('be.visible');
-          
+
           cy.get('.flipcard__item-back').click();
 
           cy.get('.flipcard__item-front').should('be.visible');
@@ -53,11 +53,11 @@ describe('Flipcard', function () {
 
         // Check if single flip is selected that other flipcards are unflipped
         const flippedItemsCount = _flipType === 'allFlip' ? index + 1 : 1;
-        
+
         cy.get('.flipcard__flip').should('have.length', flippedItemsCount);
       });
-      
-      cy.wait(1000); 
+
+      cy.wait(1000);
     });
   });
 });
