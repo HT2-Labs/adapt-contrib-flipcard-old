@@ -13,7 +13,6 @@ export default function flipcard(props) {
       <div className='component__widget flipcard__widget clearfix'>
 
         {props._items.map(({ backBody, backTitle, frontImage, _flipDirection }, index) =>
-
           <div
             className={classes([
               `component__item flipcard__item item-${index} ${_flipDirection}`
