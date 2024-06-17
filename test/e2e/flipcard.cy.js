@@ -13,7 +13,6 @@ describe('Flipcard', function () {
       cy.visit(`/#/preview/${flipcardComponent._id}`);
       // Retrieve values
       const { body, displayTitle, instruction, _items, _flipType } = flipcardComponent;
-      
 
       // Basic checks
       cy.testContainsOrNotExists('.flipcard__title', stripHtml(displayTitle));
