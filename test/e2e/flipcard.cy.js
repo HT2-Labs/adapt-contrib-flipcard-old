@@ -8,12 +8,11 @@ describe('Flipcard', function () {
   it('should display the flipcard component', function () {
     // Get flipcard components and loop through each one
     const flipcardComponents = this.data.components.filter(component => component._component === 'flipcard');
+    const stripHtml = cy.helpers.stripHtml;
     flipcardComponents.forEach(flipcardComponent => {
       cy.visit(`/#/preview/${flipcardComponent._id}`);
       // Retrieve values
       const { body, displayTitle, instruction, _items, _flipType } = flipcardComponent;
-
-      const stripHtml = cy.helpers.stripHtml;
 
       // Basic checks
       cy.testContainsOrNotExists('.flipcard__title', stripHtml(displayTitle));
