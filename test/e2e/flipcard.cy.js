@@ -56,7 +56,7 @@ describe('Flipcard', function () {
         cy.get('.flipcard__flip').should('have.length', flippedItemsCount);
       });
 
-      cy.wait(1000); 
+      cy.wait(1000);
     });
   });
 });
