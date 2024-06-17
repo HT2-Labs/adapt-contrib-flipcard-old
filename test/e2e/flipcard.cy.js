@@ -36,7 +36,7 @@ describe('Flipcard', function () {
           // Make sure interacting switches the front and back correctly
           cy.get('.flipcard__item-front').should('be.visible');
           cy.get('.flipcard__item-back').should('not.be.visible');
-          
+
           cy.get('.flipcard__item-front').click({force: true});
 
           cy.get('.flipcard__item-front').should('not.be.visible');
