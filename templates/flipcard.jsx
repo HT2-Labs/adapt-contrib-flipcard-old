@@ -35,26 +35,27 @@ export default function flipcard(props) {
               className='flipcard__item-face flipcard__item-back'
               tabIndex='-1'
             >
-              <button
+              <div
                 className='flipcard__item-back-button'
+                role='button'
               />
-              { backTitle &&
-                <div
-                  className='flipcard__item-back-title'
-                  role='heading'
-                  aria-level={4}
-                  dangerouslySetInnerHTML={{ __html: compile(backTitle) }}
-                >
-                </div>
-              }
+                { backTitle &&
+                  <div
+                    className='flipcard__item-back-title'
+                    role='heading'
+                    dangerouslySetInnerHTML={{ __html: compile(backTitle) }}
+                  >
+                  </div>
+                }
 
-              { backBody &&
-                <div
-                  className='flipcard__item-back-body'
-                  dangerouslySetInnerHTML={{ __html: compile(backBody) }}
-                >
-                </div>
-              }
+                { backBody &&
+                  <div
+                    className='flipcard__item-back-body'
+                    dangerouslySetInnerHTML={{ __html: compile(backBody) }}
+                  >
+                  </div>
+                }
+              </div>
             </div>
           </div>
         )}
