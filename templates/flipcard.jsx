@@ -38,7 +38,7 @@ export default function flipcard(props) {
               <div
                 className='flipcard__item-back-button'
                 role='button'
-              />
+              >
                 { backTitle &&
                   <div
                     className='flipcard__item-back-title'
