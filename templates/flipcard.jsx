@@ -12,7 +12,7 @@ export default function flipcard(props) {
 
       <div className='component__widget flipcard__widget clearfix'>
 
-        {props._items.map(({ backBody, backTitle, frontImage, _flipDirection }, index) =>
+        {props._items.map(({ backBody, backTitle, backAriaLabel, frontImage, _flipDirection }, index) =>
           <div
             className={classes([
               `component__item flipcard__item item-${index} ${_flipDirection}`
@@ -27,7 +27,8 @@ export default function flipcard(props) {
               <img
                 className='flipcard__item-frontImage'
                 src={frontImage?.src}
-                aria-label={frontImage?.alt}>
+                aria-label={frontImage?.alt}
+              >
               </img>
             </div>
 
@@ -38,6 +39,7 @@ export default function flipcard(props) {
               <div
                 className='flipcard__item-back-button'
                 role='button'
+                aria-label={backAriaLabel || backTitle}
               >
                 { backTitle &&
                   <div

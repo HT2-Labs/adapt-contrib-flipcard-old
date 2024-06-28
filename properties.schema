@@ -110,6 +110,16 @@
             "validators": [],
             "help": "Enter body text for back side of flipcard element",
             "translatable": true
+          },
+          "backAriaLabel": {
+            "type": "string",
+            "required": false,
+            "inputType": "Text",
+            "title": "Back Button Aria Label",
+            "default": "",
+            "validators": [],
+            "help": "Enter an aria label for the flipcard back button. If empty, this will default to the Item Title",
+            "translatable": true
           }
         }
       }
