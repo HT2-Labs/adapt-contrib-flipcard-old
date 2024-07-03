@@ -2,13 +2,6 @@ import a11y from 'core/js/a11y';
 import ComponentView from 'coreViews/componentView';
 
 class FlipcardView extends ComponentView {
-  events() {
-    return {
-      'click .flipcard__item': 'onClickFlipItem',
-      'keypress .flipcard__item': 'onClickFlipItem'
-    };
-  }
-
   preRender() {
     this.model.set('_items',
       this.model.get('_items').map(obj => ({
@@ -19,17 +12,6 @@ class FlipcardView extends ComponentView {
 
   // this is used to set ready status for current component on postRender.
   postRender() {
-    const items = this.model.get('_items');
-    const $items = this.$('.flipcard__item');
-
-    if (!Modernizr.testProp('transformStyle', 'preserve-3d')) {
-      this.$('.flipcard__item-back').hide();
-    }
-
-    // Width css class for single or multiple images in flipcard.
-    const className = (items.length > 1) ? 'flipcard__multiple' : 'flipcard__single';
-    $items.addClass(className);
-
     this.$('.flipcard__widget').imageready(() => {
       this.reRender();
       this.setReadyStatus();
@@ -74,99 +56,6 @@ class FlipcardView extends ComponentView {
       flexBasis: itemWidth,
       marginBottom: gutterWidth
     });
-  }
-
-  // Click or Touch event handler for flip card.
-  onClickFlipItem(event) {
-    if (event && event.target.tagName.toLowerCase() === 'a') {
-      return;
-    }
-    event && event.preventDefault();
-
-    const $selectedElement = $(event.currentTarget);
-    const flipType = this.model.get('_flipType');
-
-    if (flipType === 'allFlip') {
-      this.performAllFlip($selectedElement);
-    } else if (flipType === 'singleFlip') {
-      this.performSingleFlip($selectedElement);
-    }
-
-    this.toggleFocusedFace($selectedElement);
-  }
-
-  // This function will be responsible to perform All flip on flipcard
-  // where all cards can flip and stay in the flipped state.
-  performAllFlip($selectedElement) {
-    const flipcardElementIndex = this.$('.flipcard__item').index($selectedElement);
-    if (Modernizr.testProp('transformStyle', 'preserve-3d')) {
-      $selectedElement.toggleClass('flipcard__flip');
-      this.setVisited(flipcardElementIndex);
-      return;
-    }
-
-    const $frontflipcard = $selectedElement.find('.flipcard__item-front');
-    const $backflipcard = $selectedElement.find('.flipcard__item-back');
-    const flipTime = this.model.get('_flipTime') || 'fast';
-
-    if ($frontflipcard.is(':visible')) {
-      $frontflipcard.fadeOut(flipTime, () => {
-        $backflipcard.fadeIn(flipTime);
-      });
-    } else if ($backflipcard.is(':visible')) {
-      $backflipcard.fadeOut(flipTime, () => {
-        $frontflipcard.fadeIn(flipTime);
-      });
-    }
-    this.setVisited(flipcardElementIndex);
-  }
-
-  // This function will be responsible to perform Single flip on flipcard where
-  // only one card can flip and stay in the flipped state.
-  performSingleFlip($selectedElement) {
-    const $items = $('.flipcard__item');
-    const flipcardFlip = 'flipcard__flip';
-    const flipcardContainer = $selectedElement.closest('.flipcard__widget');
-    if (!Modernizr.testProp('transformStyle', 'preserve-3d')) {
-      const frontflipcard = $selectedElement.find('.flipcard__item-front');
-      const backflipcard = $selectedElement.find('.flipcard__item-back');
-      const flipTime = this.model.get('_flipTime') || 'fast';
-
-      if (backflipcard.is(':visible')) {
-        backflipcard.fadeOut(flipTime, () => {
-          frontflipcard.fadeIn(flipTime);
-        });
-      } else {
-        const visibleflipcardBack = flipcardContainer.find('.flipcard__item-back:visible');
-        if (visibleflipcardBack.length > 0) {
-          visibleflipcardBack.fadeOut(flipTime, () => {
-            flipcardContainer.find('.flipcard__item-front:hidden').fadeIn(flipTime);
-          });
-        }
-        frontflipcard.fadeOut(flipTime, () => {
-          backflipcard.fadeIn(flipTime);
-        });
-      }
-    } else {
-      if ($selectedElement.hasClass(flipcardFlip)) {
-        $selectedElement.removeClass(flipcardFlip);
-      } else {
-        flipcardContainer.find($items).removeClass(flipcardFlip);
-        $selectedElement.addClass(flipcardFlip);
-      }
-    }
-
-    const flipcardElementIndex = this.$('.flipcard__item').index($selectedElement);
-    this.setVisited(flipcardElementIndex);
-  }
-
-  toggleFocusedFace($flipcardItem) {
-    const flipcardFront = $flipcardItem.find('.flipcard__item-front');
-    const flipcardBack = $flipcardItem.find('.flipcard__item-back');
-
-    const focusItem = $flipcardItem.hasClass('flipcard__flip') ? flipcardBack : flipcardFront;
-
-    a11y.focus(focusItem);
   }
 
   // This function will set the visited status for particular flipcard item.
