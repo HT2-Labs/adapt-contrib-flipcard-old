@@ -11,9 +11,10 @@ export default function flipcard(props) {
 
   const [isAllFront, setIsAllFront] = useState(false);
 
-  const performSingleFlip = () => {
-    setIsAllFront(true);
-  }
+  const performSingleFlip = () => {}
+  // const performSingleFlip = () => {
+  //   setIsAllFront(true);
+  // }
 
   return (
     <div
@@ -26,18 +27,18 @@ export default function flipcard(props) {
       <div className='component__widget flipcard__widget clearfix'>
 
         {_items.map(({ backBody, backTitle, frontImage, _flipDirection }, index) =>
-          <templates.flipcardItem
-            backBody={backBody}
-            backTitle={backTitle}
-            frontImage={frontImage}
-            index={index}
-            isAllFront={isAllFront}
-            performSingleFlip={performSingleFlip}
-            setVisited={setVisited}
-            _flipDirection={_flipDirection}
-            _flipType={_flipType}
-            _hasMultipleItems={_items.length > 1}
-          />
+          // <templates.flipcardItem
+          //   backBody={backBody}
+          //   backTitle={backTitle}
+          //   frontImage={frontImage}
+          //   index={index}
+          //   isAllFront={isAllFront}
+          //   performSingleFlip={performSingleFlip}
+          //   setVisited={setVisited}
+          //   _flipDirection={_flipDirection}
+          //   _flipType={_flipType}
+          //   _hasMultipleItems={_items.length > 1}
+          // />
         )}
       </div>
 
