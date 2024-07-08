@@ -79,15 +79,9 @@
       }
     }
 
-    // Front item
-    &-front {
-      opacity: 1;
-    }
-
     // Back item
     &-back {
       background: @item-color;
-      opacity: 0;
       padding: @item-padding;
     }
   }
@@ -117,11 +111,6 @@
   // Hide/Show the items when flipped
   &__item {
     cursor: pointer;
-
-    &-back-body,
-    &-back-title {
-      display: none;
-    }
 
     &.flipcard__flip {
       .flipcard__item {
@@ -166,10 +155,5 @@
         }
       }
     }
-  }
-
-  // Make links on Flipcards not available on the front side
-  .flipcard__item-face.flipcard__item-back[aria-hidden="true"] {
-    pointer-events: none;
   }
 }

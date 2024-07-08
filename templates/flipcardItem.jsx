@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState} from 'react';
+import a11y from 'core/js/a11y';
 import { classes, compile } from 'core/js/reactHelpers';
 
 export default function flipcardItem(props) {
@@ -6,7 +7,7 @@ export default function flipcardItem(props) {
       backBody,
       backTitle,
       frontImage,
-      index
+      index,
       isAllFront,
       performSingleFlip,
       setVisited,
@@ -30,22 +31,17 @@ export default function flipcardItem(props) {
 
     setIsDisplayFront(!isDisplayFront);
     setVisited(index);
-    toggleFocusedFace();
+    a11y.focus(event.target.parentElement);
   };
-
-  const toggleFocusedFace = () => {
-    const focusItem = this.find('.flipcard__item-face');
-    a11y.focus(focusItem);
-  }
 
   return (
     <div
       className={classes([
         'component__item',
         'flipcard__item',
-        `item-${index}`
+        `item-${index}`,
         `${_flipDirection}`,
-        _hasMultipleItems ? 'flipcard__multiple' : 'flipcard__single';
+        _hasMultipleItems ? 'flipcard__multiple' : 'flipcard__single'
       ])}
       key={index}
       onClick={onClickFlipItem}
@@ -55,7 +51,6 @@ export default function flipcardItem(props) {
           className='flipcard__item-face flipcard__item-front'
           role='button'
           tabIndex='0'
-          a11y-focus
         >
           <img
             className='flipcard__item-frontImage'
