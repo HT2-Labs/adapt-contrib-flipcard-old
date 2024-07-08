@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { templates } from 'core/js/reactHelpers';
 
 export default function flipcard(props) {

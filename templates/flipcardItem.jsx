@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import a11y from 'core/js/a11y';
 import { classes, compile } from 'core/js/reactHelpers';
 
