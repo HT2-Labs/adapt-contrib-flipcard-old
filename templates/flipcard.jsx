@@ -8,10 +8,12 @@ export default function flipcard(props) {
     _items
   } = props;
 
-  const [isAllFront, setIsAllFront] = useState(false);
+  const [forceFront, setForceFront] = useState(false);
+  const [ignoreIndex, setIgnoreIndex] = useState(null);
 
-  const performSingleFlip = () => {
-    setIsAllFront(true);
+  const performSingleFlip = (index) => {
+    setForceFront(true);
+    setIgnoreIndex(index);
   }
 
   return (
@@ -31,7 +33,7 @@ export default function flipcard(props) {
             frontImage={frontImage}
             key={index}
             index={index}
-            isAllFront={isAllFront}
+            forceFront={forceFront && index !== ignoreIndex}
             performSingleFlip={performSingleFlip}
             setVisited={setVisited}
             _flipDirection={_flipDirection}

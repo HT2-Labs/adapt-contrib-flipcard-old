@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import React, { useState} from 'react';
 import a11y from 'core/js/a11y';
 import { classes, compile } from 'core/js/reactHelpers';
@@ -6,9 +7,9 @@ export default function flipcardItem(props) {
   const {
       backBody,
       backTitle,
+      forceFront,
       frontImage,
       index,
-      isAllFront,
       performSingleFlip,
       setVisited,
       _flipDirection,
@@ -18,7 +19,7 @@ export default function flipcardItem(props) {
 
   const [isDisplayFront, setIsDisplayFront] = useState(true);
 
-  if (isAllFront) {
+  if (forceFront && !isDisplayFront) {
     setIsDisplayFront(true);
   }
 
@@ -26,7 +27,7 @@ export default function flipcardItem(props) {
     if (event && event.target.tagName.toLowerCase() === 'a') return;
 
     if (_flipType === 'singleFlip' && _hasMultipleItems) {
-      performSingleFlip();
+      performSingleFlip(index);
     }
 
     setIsDisplayFront(!isDisplayFront);
