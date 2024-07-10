@@ -27,8 +27,6 @@ describe('Flipcard', function () {
 
         cy.get('.flipcard__item').eq(index).within(() => {
           // Check item contents are as expected
-          cy.testContainsOrNotExists('.flipcard__item-back-title', stripHtml(backTitle));
-          cy.testContainsOrNotExists('.flipcard__item-back-body', stripHtml(backBody));
           cy.get('.flipcard__item-frontImage')
             .should('have.attr', 'src', frontImage.src)
             .should('have.attr', 'aria-label', frontImage.alt);
@@ -41,6 +39,10 @@ describe('Flipcard', function () {
 
           cy.get('.flipcard__item-front').should('not.exist');
           cy.get('.flipcard__item-back').should('be.visible');
+
+          // Check item contents are as expected
+          cy.testContainsOrNotExists('.flipcard__item-back-title', stripHtml(backTitle));
+          cy.testContainsOrNotExists('.flipcard__item-back-body', stripHtml(backBody));
 
           cy.get('.flipcard__item-back').click();
 
