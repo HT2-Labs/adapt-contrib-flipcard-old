@@ -1,31 +1,39 @@
 import _ from 'underscore';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import a11y from 'core/js/a11y';
 import { classes, compile } from 'core/js/reactHelpers';
 
 export default function flipcardItem(props) {
   const {
-      backBody,
-      backTitle,
-      forceFront,
-      frontImage,
-      index,
-      performSingleFlip,
-      setVisited,
-      _flipDirection,
-      _flipTime,
-      _flipType,
-      _hasMultipleItems
-    } = props;
+    backBody,
+    backTitle,
+    forceFront,
+    frontImage,
+    index,
+    performSingleFlip,
+    setVisited,
+    _flipDirection,
+    _flipTime,
+    _flipType,
+    _hasMultipleItems
+  } = props;
 
   const [isDisplayFront, setIsDisplayFront] = useState(true);
+  const flipCardRef = useRef(null);
+
+  // Required for setting focus after flip
+  useEffect(() => {
+    if (flipCardRef.current) {
+      a11y.focus(flipCardRef.current);
+    }
+  }, [isDisplayFront]);
 
   if (forceFront && !isDisplayFront) {
     setIsDisplayFront(true);
   }
 
   const handleKeyPress = (event) => {
-    if (event.key !== 'Enter') return
+    if (event.key !== 'Enter') return;
     onClickFlipItem(event);
   };
 
@@ -35,7 +43,7 @@ export default function flipcardItem(props) {
     const closestFace = event.target.closest('.flipcard__item-face');
     $(closestFace).addClass('flipping');
 
-    await new Promise(resolve => setTimeout(resolve, _flipTime))
+    await new Promise(resolve => setTimeout(resolve, _flipTime));
 
     if (_flipType === 'singleFlip' && _hasMultipleItems) {
       performSingleFlip(index);
@@ -43,7 +51,6 @@ export default function flipcardItem(props) {
 
     setVisited(index);
     setIsDisplayFront(!isDisplayFront);
-    a11y.focus(closestFace);
   };
 
   return (
@@ -56,8 +63,9 @@ export default function flipcardItem(props) {
         _hasMultipleItems ? 'flipcard__multiple' : 'flipcard__single'
       ])}
     >
-      { isDisplayFront &&
+      {isDisplayFront &&
         <div
+          ref={flipCardRef}
           className={classes([
             'flipcard__item-face',
             'flipcard__item-front'
@@ -70,13 +78,15 @@ export default function flipcardItem(props) {
           <img
             className='flipcard__item-frontImage'
             src={frontImage?.src}
-            aria-label={frontImage?.alt}>
+            aria-label={frontImage?.alt}
+          >
           </img>
         </div>
       }
 
-      { !isDisplayFront &&
+      {!isDisplayFront &&
         <div
+          ref={flipCardRef}
           className={classes([
             'flipcard__item-face',
             'flipcard__item-back'
@@ -86,7 +96,7 @@ export default function flipcardItem(props) {
           onClick={onClickFlipItem}
           onKeyPress={handleKeyPress}
         >
-          { backTitle &&
+          {backTitle &&
             <div
               className='flipcard__item-back-title'
               role='heading'
@@ -96,7 +106,7 @@ export default function flipcardItem(props) {
             </div>
           }
 
-          { backBody &&
+          {backBody &&
             <div
               className='flipcard__item-back-body'
               dangerouslySetInnerHTML={{ __html: compile(backBody) }}
