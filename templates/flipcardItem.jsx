@@ -13,6 +13,7 @@ export default function flipcardItem(props) {
       performSingleFlip,
       setVisited,
       _flipDirection,
+      _flipTime,
       _flipType,
       _hasMultipleItems
     } = props;
@@ -23,16 +24,26 @@ export default function flipcardItem(props) {
     setIsDisplayFront(true);
   }
 
-  const onClickFlipItem = (event) => {
+  const handleKeyPress = (event) => {
+    if (event.key !== 'Enter') return
+    onClickFlipItem(event);
+  };
+
+  const onClickFlipItem = async (event) => {
     if (event && event.target.tagName.toLowerCase() === 'a') return;
+
+    const closestFace = event.target.closest('.flipcard__item-face');
+    $(closestFace).addClass('flipping');
+
+    await new Promise(resolve => setTimeout(resolve, _flipTime))
 
     if (_flipType === 'singleFlip' && _hasMultipleItems) {
       performSingleFlip(index);
     }
 
-    setIsDisplayFront(!isDisplayFront);
     setVisited(index);
-    a11y.focus(event.target.parentElement);
+    setIsDisplayFront(!isDisplayFront);
+    a11y.focus(closestFace);
   };
 
   return (
@@ -44,14 +55,17 @@ export default function flipcardItem(props) {
         `${_flipDirection}`,
         _hasMultipleItems ? 'flipcard__multiple' : 'flipcard__single'
       ])}
-      key={index}
-      onClick={onClickFlipItem}
     >
       { isDisplayFront &&
         <div
-          className='flipcard__item-face flipcard__item-front'
+          className={classes([
+            'flipcard__item-face',
+            'flipcard__item-front'
+          ])}
           role='button'
-          tabIndex='0'
+          tabIndex={0}
+          onClick={onClickFlipItem}
+          onKeyPress={handleKeyPress}
         >
           <img
             className='flipcard__item-frontImage'
@@ -63,12 +77,15 @@ export default function flipcardItem(props) {
 
       { !isDisplayFront &&
         <div
-          className='flipcard__item-face flipcard__item-back'
-          tabIndex='-1'
+          className={classes([
+            'flipcard__item-face',
+            'flipcard__item-back'
+          ])}
+          role='button'
+          tabIndex={0}
+          onClick={onClickFlipItem}
+          onKeyPress={handleKeyPress}
         >
-          <button
-            className='flipcard__item-back-button'
-          />
           { backTitle &&
             <div
               className='flipcard__item-back-title'

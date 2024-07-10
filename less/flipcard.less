@@ -1,20 +1,9 @@
-// Handles all properties
-.vendor-prefix (@property, @value) {
-  -webkit-@{property}: @value;
-  -moz-@{property}: @value;
-  -ms-@{property}: @value;
-  -o-@{property}: @value;
-  @{property}: @value;
-}
-
-// Scope the styles to flipcard__component's
 .flipcard {
   &__widget {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-
-    .vendor-prefix(perspective, 37.5rem);
+    perspective: 37.5rem;
   }
 
   // Fix for jumping Footer nav
@@ -25,6 +14,7 @@
   &__item {
     border: 0;
     color: @item-color-inverted;
+    cursor: pointer;
     overflow: hidden;
     padding: 0;
     position: relative;
@@ -51,15 +41,9 @@
 
     &-face {
       height: 100%;
-      width: 100%;
-
-      transition: transform 0.6s;
-      transition: all 0.4s ease-in-out;
-      -webkit-transform-style: preserve-3d;
-      -moz-transform-style: preserve-3d;
-      -ms-transform-style: preserve-3d;
-      -o-transform-style: preserve-3d;
       transform-style: preserve-3d;
+      transition: transform 1s;
+      width: 100%;
 
       &.flipcard__item-front .flipcard__item-frontImage {
         height: auto;
@@ -67,31 +51,22 @@
       }
     }
 
-    // Back item
     &-back {
       background: @item-color;
       padding: @item-padding;
     }
 
-    // Reverse the X transform on vertical
+    // X transform on vertical flip
     &.vertical {
-      .flipcard__item-front {
-        .vendor-prefix(transform, rotateX(0deg));
-      }
-
-      .flipcard__item-back {
-        .vendor-prefix(transform, rotateX(0deg));
+      .flipcard__item-face.flipping {
+        transform: rotateX(180deg);
       }
     }
 
-    //Reverse the Y transform on horizontal
+    // Y transform on horizontal flip
     &.horizontal {
-      .flipcard__item-front {
-        .vendor-prefix(transform, rotateY(0deg));
-      }
-
-      .flipcard__item-back {
-        .vendor-prefix(transform, rotateY(0deg));
+      .flipcard__item-face.flipping {
+        transform: rotateY(180deg);
       }
     }
   }

@@ -4,6 +4,7 @@ import { templates } from 'core/js/reactHelpers';
 export default function flipcard(props) {
   const {
     setVisited,
+    _flipTime,
     _flipType,
     _items
   } = props;
@@ -37,6 +38,7 @@ export default function flipcard(props) {
             performSingleFlip={performSingleFlip}
             setVisited={setVisited}
             _flipDirection={_flipDirection}
+            _flipTime={_flipTime}
             _flipType={_flipType}
             _hasMultipleItems={_items.length > 1}
           />
