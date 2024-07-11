@@ -12,7 +12,7 @@ export default function flipcard(props) {
 
       <div className='component__widget flipcard__widget clearfix'>
 
-        {props._items.map(({ backBody, backTitle, frontImage, _flipDirection }, index) =>
+        {props._items.map(({ backBody, backTitle, backAriaLabel, frontImage, _flipDirection }, index) =>
           <div
             className={classes([
               `component__item flipcard__item item-${index} ${_flipDirection}`
@@ -27,7 +27,8 @@ export default function flipcard(props) {
               <img
                 className='flipcard__item-frontImage'
                 src={frontImage?.src}
-                aria-label={frontImage?.alt}>
+                aria-label={frontImage?.alt}
+              >
               </img>
             </div>
 
@@ -35,26 +36,28 @@ export default function flipcard(props) {
               className='flipcard__item-face flipcard__item-back'
               tabIndex='-1'
             >
-              <button
+              <div
                 className='flipcard__item-back-button'
-              />
-              { backTitle &&
-                <div
-                  className='flipcard__item-back-title'
-                  role='heading'
-                  aria-level={4}
-                  dangerouslySetInnerHTML={{ __html: compile(backTitle) }}
-                >
-                </div>
-              }
+                role='button'
+                aria-label={backAriaLabel || backTitle}
+              >
+                { backTitle &&
+                  <div
+                    className='flipcard__item-back-title'
+                    role='heading'
+                    dangerouslySetInnerHTML={{ __html: compile(backTitle) }}
+                  >
+                  </div>
+                }
 
-              { backBody &&
-                <div
-                  className='flipcard__item-back-body'
-                  dangerouslySetInnerHTML={{ __html: compile(backBody) }}
-                >
-                </div>
-              }
+                { backBody &&
+                  <div
+                    className='flipcard__item-back-body'
+                    dangerouslySetInnerHTML={{ __html: compile(backBody) }}
+                  >
+                  </div>
+                }
+              </div>
             </div>
           </div>
         )}
