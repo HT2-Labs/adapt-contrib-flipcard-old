@@ -1,20 +1,9 @@
-// Handles all properties
-.vendor-prefix (@property, @value) {
-  -webkit-@{property}: @value;
-  -moz-@{property}: @value;
-  -ms-@{property}: @value;
-  -o-@{property}: @value;
-  @{property}: @value;
-}
-
-// Scope the styles to flipcard__component's
 .flipcard {
   &__widget {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-
-    .vendor-prefix(perspective, 37.5rem);
+    perspective: 37.5rem;
   }
 
   // Fix for jumping Footer nav
@@ -25,6 +14,7 @@
   &__item {
     border: 0;
     color: @item-color-inverted;
+    cursor: pointer;
     overflow: hidden;
     padding: 0;
     position: relative;
@@ -33,11 +23,6 @@
     @media all and (max-width: @device-width-medium) {
       // Override style attribute
       flex-basis: 100% !important;
-
-      &__item-face {
-        height: 100%;
-        width: 100%;
-      }
     }
 
     html.size-large & {
@@ -55,22 +40,9 @@
     }
 
     &-face {
-      -webkit-backface-visibility: hidden;
-      -moz-backface-visibility: hidden;
-      -ms-backface-visibility: hidden;
-      -o-backface-visibility: hidden;
-      backface-visibility: hidden;
-
       height: 100%;
-
-      transition: all 0.4s ease-in-out;
-
-      -webkit-transform-style: preserve-3d;
-      -moz-transform-style: preserve-3d;
-      -ms-transform-style: preserve-3d;
-      -o-transform-style: preserve-3d;
       transform-style: preserve-3d;
-
+      transition: transform 1s;
       width: 100%;
 
       &.flipcard__item-front .flipcard__item-frontImage {
@@ -79,97 +51,23 @@
       }
     }
 
-    // Front item
-    &-front {
-      opacity: 1;
-    }
-
-    // Back item
     &-back {
       background: @item-color;
-      opacity: 0;
       padding: @item-padding;
     }
-  }
 
-  // Reverse the X transform on vertical
-  &.vertical {
-    .flipcard__item-front {
-      .transform(rotateX(0deg));
-    }
-
-    .flipcard__item-back {
-      .transform(rotateX(180deg));
-    }
-  }
-
-  //Reverse the Y transform on horizontal
-  &.horizontal {
-    .flipcard__item-front {
-      .transform(rotateY(0deg));
-    }
-
-    .flipcard__item-back {
-      .transform(rotateY(180deg));
-    }
-  }
-
-  // Hide/Show the items when flipped
-  &__item {
-    cursor: pointer;
-
-    &-back-body,
-    &-back-title {
-      display: none;
-    }
-
-    &.flipcard__flip {
-      .flipcard__item {
-        &-back-body,
-        &-back-title {
-          display: block;
-        }
-
-        // Hide the front item
-        &-front {
-          opacity: 0;
-        }
-
-        // Show the back item
-        &-back {
-          pointer-events: all;
-          opacity: 1;
-          overflow-x: hidden;
-          overflow-y: auto;
-        }
-      }
-
-      // Reverse the X transform on vertical
-      &.vertical {
-        .flipcard__item-front {
-          .transform(rotateX(180deg));
-        }
-
-        .flipcard__item-back {
-          .transform(rotateX(0deg));
-        }
-      }
-
-      //Reverse the Y transform on horizontal
-      &.horizontal {
-        .flipcard__item-front {
-          .transform(rotateY(180deg));
-        }
-
-        .flipcard__item-back {
-          .transform(rotateY(0deg));
-        }
+    // X transform on vertical flip
+    &.vertical {
+      .flipcard__item-face.flipping {
+        transform: rotateX(180deg);
       }
     }
-  }
 
-  // Make links on Flipcards not available on the front side
-  .flipcard__item-face.flipcard__item-back[aria-hidden="true"] {
-    pointer-events: none;
+    // Y transform on horizontal flip
+    &.horizontal {
+      .flipcard__item-face.flipping {
+        transform: rotateY(180deg);
+      }
+    }
   }
 }

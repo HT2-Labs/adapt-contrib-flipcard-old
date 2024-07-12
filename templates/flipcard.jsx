@@ -1,7 +1,22 @@
-import React from 'react';
-import { templates, classes, compile } from 'core/js/reactHelpers';
+import React, { useState } from 'react';
+import { templates } from 'core/js/reactHelpers';
 
 export default function flipcard(props) {
+  const {
+    setVisited,
+    _flipTime,
+    _flipType,
+    _items
+  } = props;
+
+  const [forceFront, setForceFront] = useState(false);
+  const [ignoreIndex, setIgnoreIndex] = useState(null);
+
+  const performSingleFlip = (index) => {
+    setForceFront(true);
+    setIgnoreIndex(index);
+  }
+
   return (
     <div
       className='component__inner flipcard__inner'
@@ -12,54 +27,21 @@ export default function flipcard(props) {
 
       <div className='component__widget flipcard__widget clearfix'>
 
-        {props._items.map(({ backBody, backTitle, backAriaLabel, frontImage, _flipDirection }, index) =>
-          <div
-            className={classes([
-              `component__item flipcard__item item-${index} ${_flipDirection}`
-            ])}
+        {_items.map(({ backBody, backTitle, frontImage, _flipDirection }, index) =>
+          <templates.flipcardItem
+            backBody={backBody}
+            backTitle={backTitle}
+            frontImage={frontImage}
             key={index}
-          >
-            <div
-              className='flipcard__item-face flipcard__item-front'
-              role='button'
-              tabIndex='0'
-            >
-              <img
-                className='flipcard__item-frontImage'
-                src={frontImage?.src}
-                aria-label={frontImage?.alt}
-              >
-              </img>
-            </div>
-
-            <div
-              className='flipcard__item-face flipcard__item-back'
-              tabIndex='-1'
-            >
-              <div
-                className='flipcard__item-back-button'
-                role='button'
-                aria-label={backAriaLabel || backTitle}
-              >
-                { backTitle &&
-                  <div
-                    className='flipcard__item-back-title'
-                    role='heading'
-                    dangerouslySetInnerHTML={{ __html: compile(backTitle) }}
-                  >
-                  </div>
-                }
-
-                { backBody &&
-                  <div
-                    className='flipcard__item-back-body'
-                    dangerouslySetInnerHTML={{ __html: compile(backBody) }}
-                  >
-                  </div>
-                }
-              </div>
-            </div>
-          </div>
+            index={index}
+            forceFront={forceFront && index !== ignoreIndex}
+            performSingleFlip={performSingleFlip}
+            setVisited={setVisited}
+            _flipDirection={_flipDirection}
+            _flipTime={_flipTime}
+            _flipType={_flipType}
+            _hasMultipleItems={_items.length > 1}
+          />
         )}
       </div>
 
