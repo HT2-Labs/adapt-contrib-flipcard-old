@@ -29,5 +29,4 @@ jobs:
             --data-urlencode "plugin=${{ github.event.pull_request.head.repo.name }}" \
             --data-urlencode "plugin_branch=${{ github.event.pull_request.head.ref }}"
         env:
-          USERNAME: ${{ secrets.JENKINS_USERNAME }}
           TOKEN: ${{ secrets.JENKINS_API_TOKEN }}
