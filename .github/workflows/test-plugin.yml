@@ -9,26 +9,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out the repository
-      uses: actions/checkout@v2
+      - name: Check out the repository
+        uses: actions/checkout@v4
 
-    - name: Get pull request labels
-      id: get-labels
-      uses: actions/github-script@v6
-      with:
-        script: |
-          const labels = context.payload.pull_request.labels.map(label => label.name);
-          return labels;
+      - name: Get pull request labels
+        id: get-labels
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const labels = context.payload.pull_request.labels.map(label => label.name);
+            return labels;
 
-    - name: Trigger Jenkins job if label matches
-      if: contains(steps.get-labels.outputs.result, 'YOUR_LABEL')
-      run: |
-        curl -X POST "https://jenkins2.learningpool.com//view/Adapt/job/Adapt-Content-Testing/buildWithParameters" \
-          --user "USERNAME:TOKEN" \
-          --data-urlencode "course=copy-of-introduction-to-adapt-master" \
-          --data-urlencode "plugin=${{ github.event.pull_request.head.repo.name }}" \
-          --data-urlencode "plugin_branch=${{ github.event.pull_request.head.ref }}"
-      env:
-        USERNAME: ${{ secrets.JENKINS_USERNAME }}
-        TOKEN: ${{ secrets.JENKINS_API_TOKEN }}
-        YOUR_LABEL: run-tests
+      - name: Trigger Jenkins job if label matches
+        if: contains(steps.get-labels.outputs.result, 'run-tests')
+        run: |
+          curl -X POST "https://jenkins2.learningpool.com/view/Adapt/job/Adapt-Content-Testing/buildWithParameters" \
+            --data-urlencode "token=TOKEN" \
+            --data-urlencode "course=copy-of-introduction-to-adapt-master" \
+            --data-urlencode "plugin=${{ github.event.pull_request.head.repo.name }}" \
+            --data-urlencode "plugin_branch=${{ github.event.pull_request.head.ref }}"
+        env:
+          USERNAME: ${{ secrets.JENKINS_USERNAME }}
+          TOKEN: ${{ secrets.JENKINS_API_TOKEN }}
