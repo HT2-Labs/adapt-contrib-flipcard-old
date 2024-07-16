@@ -12,7 +12,7 @@ export default class FlipcardModel extends ItemsComponentModel {
   setVisited(index) {
     const child = this.getChildren()?.models?.[index] || null;
     if (!child) {
-      logging.warn(`Flipcard item not found for index 'index'`);
+      logging.warn(`Flipcard item not found for index '${index}'`);
       return;
     }
 
