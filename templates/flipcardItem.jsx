@@ -51,6 +51,7 @@ export default function flipcardItem(props) {
     }
 
     setVisited(index);
+    // Needed for Salsa class adding
     setActiveItem(index);
     setIsDisplayFront(!isDisplayFront);
   };
