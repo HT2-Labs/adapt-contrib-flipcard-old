@@ -11,6 +11,7 @@ export default function flipcardItem(props) {
     frontImage,
     index,
     performSingleFlip,
+    setActiveItem,
     setVisited,
     _flipDirection,
     _flipTime,
@@ -50,6 +51,7 @@ export default function flipcardItem(props) {
     }
 
     setVisited(index);
+    setActiveItem(index);
     setIsDisplayFront(!isDisplayFront);
   };
 

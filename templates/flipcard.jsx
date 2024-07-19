@@ -3,6 +3,7 @@ import { templates } from 'core/js/reactHelpers';
 
 export default function flipcard(props) {
   const {
+    setActiveItem,
     setVisited,
     _flipTime,
     _flipType,
@@ -36,6 +37,7 @@ export default function flipcard(props) {
             index={index}
             forceFront={forceFront && index !== ignoreIndex}
             performSingleFlip={performSingleFlip}
+            setActiveItem={setActiveItem}
             setVisited={setVisited}
             _flipDirection={_flipDirection}
             _flipTime={_flipTime}
