@@ -11,6 +11,7 @@ export default function flipcardItem(props) {
     frontImage,
     index,
     performSingleFlip,
+    setActiveItem,
     setVisited,
     _flipDirection,
     _flipTime,
@@ -50,6 +51,8 @@ export default function flipcardItem(props) {
     }
 
     setVisited(index);
+    // Needed for Salsa class adding
+    setActiveItem(index);
     setIsDisplayFront(!isDisplayFront);
   };
 

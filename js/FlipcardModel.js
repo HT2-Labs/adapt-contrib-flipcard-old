@@ -5,6 +5,7 @@ export default class FlipcardModel extends ItemsComponentModel {
 
   init() {
     super.init();
+    this.set('setActiveItem', this.setActiveItem.bind(this));
     this.set('setVisited', this.setVisited.bind(this));
   }
 
