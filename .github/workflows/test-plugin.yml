@@ -2,7 +2,7 @@ name: Test Plugin
 
 on:
   pull_request:
-    types: [labeled, unlabeled, synchronize, opened]
+    types: [labeled, opened]
 
 jobs:
   trigger-jenkins:
@@ -24,9 +24,8 @@ jobs:
         if: contains(steps.get-labels.outputs.result, 'run-tests')
         run: |
           curl -X POST "https://jenkins2.learningpool.com/view/Adapt/job/Adapt-Content-Testing/buildWithParameters" \
-            --data-urlencode "token=TOKEN" \
+            --data-urlencode "token=${{ secrets.JENKINS_TOKEN }}" \
             --data-urlencode "course=copy-of-introduction-to-adapt-master" \
             --data-urlencode "plugin=${{ github.event.pull_request.head.repo.name }}" \
             --data-urlencode "plugin_branch=${{ github.event.pull_request.head.ref }}"
-        env:
-          TOKEN: ${{ secrets.JENKINS_API_TOKEN }}
+
