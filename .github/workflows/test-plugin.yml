@@ -20,14 +20,19 @@ jobs:
             const labels = context.payload.pull_request.labels.map(label => label.name);
             return labels;
 
+      - name: Get Jenkins crumb
+        id: get-crumb
+        run: |
+          CRUMB=$(curl -s --user "${{ secrets.JENKINS_AUTH }}" "https://jenkins2.learningpool.com/crumbIssuer/api/json" | jq -r '.crumb')
+          echo "CRUMB=$CRUMB" >> $GITHUB_ENV
+
       - name: Trigger Jenkins job if label matches
         if: contains(steps.get-labels.outputs.result, 'run-tests')
         run: |
           curl --location --request POST \
             --url https://jenkins2.learningpool.com/view/Adapt/job/Adapt-Content-Testing/buildWithParameters \
             --header "Authorization: Basic ${{ secrets.JENKINS_AUTH }}" \
-            --header "Jenkins-Crumb: ${{ secrets.JENKINS_CRUMB }}" \
+            --header "Jenkins-Crumb: ${{ env.CRUMB }}" \
             --data-urlencode "course=copy-of-introduction-to-adapt-master" \
             --data-urlencode "plugin=${{ github.event.pull_request.head.repo.name }}" \
             --data-urlencode "plugin_branch=${{ github.event.pull_request.head.ref }}"
-
