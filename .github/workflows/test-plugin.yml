@@ -23,7 +23,7 @@ jobs:
       - name: Get Jenkins crumb
         id: get-crumb
         run: |
-          CRUMB=$(curl -s --user ${{ secrets.JENKINS_AUTH }} --url "https://jenkins2.learningpool.com/crumbIssuer/api/json" | jq -r '.crumb')
+          CRUMB=$(curl -s --user "${{ secrets.JENKINS_AUTH }}" "https://jenkins2.learningpool.com/crumbIssuer/api/json" | jq -r '.crumb')
           echo "CRUMB=$CRUMB" >> $GITHUB_ENV
 
       - name: Trigger Jenkins job if label matches
