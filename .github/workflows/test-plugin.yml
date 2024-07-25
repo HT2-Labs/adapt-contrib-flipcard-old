@@ -23,5 +23,5 @@ jobs:
       - name: Trigger Jenkins job if label matches
         if: contains(steps.get-labels.outputs.result, 'run-tests')
         run: |
-          curl -X POST "https://jenkins2.learningpool.com/view/Adapt/job/Adapt-Content-Testing/buildWithParameters"?token=^&T)HJNiuphu89*(YHH))"&course=copy-of-introduction-to-adapt-master"&plugin=${{ github.event.pull_request.head.repo.name }}"&plugin_branch=${{ github.event.pull_request.head.ref }}"
+          curl -X POST "https://jenkins2.learningpool.com/view/Adapt/job/Adapt-Content-Testing/buildWithParameters?token=^&T)HJNiuphu89*(YHH))&course=copy-of-introduction-to-adapt-master&plugin=${{ github.event.pull_request.head.repo.name }}&plugin_branch=${{ github.event.pull_request.head.ref }}"
 
